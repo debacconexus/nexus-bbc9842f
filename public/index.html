@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justice Involved Veterans Tracking System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            background: #07192f;
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #33e0c4;
+        }
+        
+        .igm-status {
+            background: #33e0c4;
+            color: #07192f;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            background: #33e0c4;
+            color: #07192f;
+            border-color: #33e0c4;
+        }
+        
+        .nav-tab:hover {
+            border-color: #33e0c4;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #33e0c4;
+        }
+        
+        .card h3 {
+            color: #07192f;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #33e0c4;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #07192f;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #33e0c4;
+        }
+        
+        .btn {
+            background: #33e0c4;
+            color: #07192f;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #07192f;
+            color: #33e0c4;
+        }
+        
+        .btn-secondary {
+            background: #ffca58;
+            color: #07192f;
+        }
+        
+        .btn-secondary:hover {
+            background: #07192f;
+            color: #ffca58;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-log {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .contact-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-date {
+            font-weight: 600;
+            color: #07192f;
+        }
+        
+        .contact-type {
+            background: #33e0c4;
+            color: #07192f;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .results-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #ffca58;
+        }
+        
+        .footer {
+            background: #07192f;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer a {
+            color: #33e0c4;
+            text-decoration: none;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #33e0c4;
+            color: #07192f;
+        }
+        
+        .status-pending {
+            background: #ffca58;
+            color: #07192f;
+        }
+        
+        .status-complete {
+            background: #28a745;
+            color: white;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">JIV Tracking System</div>
+            <div class="igm-status">IGM Status: Active</div>
+        </div>
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
+            <button class="nav-tab" onclick="showTab('intake')">Intake Form</button>
+            <button class="nav-tab" onclick="showTab('contacts')">Contact Log</button>
+            <button class="nav-tab" onclick="showTab('search')">Search</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h1 style="color: #07192f; margin-bottom: 2rem;">Justice Involved Veterans Dashboard</h1>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Total Active Cases</h3>
+                    <div class="stat-number">247</div>
+                    <p style="color: #666;">Currently tracked veterans</p>
+                </div>
+                
+                <div class="card">
+                    <h3>New Intakes This Month</h3>
+                    <div class="stat-number">18</div>
+                    <p style="color: #666;">Recent enrollments</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Successful Completions</h3>
+                    <div class="stat-number">89</div>
+                    <p style="color: #666;">Program graduates</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Pending Reviews</h3>
+                    <div class="stat-number">12</div>
+                    <p style="color: #666;">Require immediate attention</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Recent Activity</h3>
+                <div style="space-y: 1rem;">
+                    <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+                        <strong>John Smith</strong> - Case review completed
+                        <div style="color: #666; font-size: 0.9rem;">2 hours ago</div>
+                    </div>
+                    <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+                        <strong>Maria Rodriguez</strong> - New intake processed
+                        <div style="color: #666; font-size: 0.9rem;">5 hours ago</div>
+                    </div>
+                    <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <strong>Robert Johnson</strong> - Court appearance scheduled
+                        <div style="color: #666; font-size: 0.9rem;">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intake Form Tab -->
+        <div id="intake" class="tab-content">
+            <div class="form-container">
+                <h2 style="color: #07192f; margin-bottom: 2rem;">Veteran Intake Form</h2>
+                
+                <form>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Enter first name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Enter last name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Social Security Number</label>
+                            <input type="text" placeholder="XXX-XX-XXXX" pattern="\d{3}-\d{2}-\d{4}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" placeholder="(XXX) XXX-XXXX">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="veteran@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Branch of Service</label>
+                            <select required>
+                                <option value="">Select branch</option>
+                                <option value="army">Army</option>
+                                <option value="navy">Navy</option>
+                                <option value="marines">Marines</option>
+                                <option value="airforce">Air Force</option>
+                                <option value="coastguard">Coast Guard</option>
+                                <option value="spaceforce">Space Force</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Service Dates</label>
+                            <input type="text" placeholder="MM/YYYY - MM/YYYY">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Discharge Status</label>
+                            <select>
+                                <option value="">Select status</option>
+                                <option value="honorable">Honorable</option>
+                                <option value="general">General</option>
+                                <option value="other">Other Than Honorable</option>
+                                <option value="bad_conduct">Bad Conduct</option>
+                                <option value="dishonorable">Dishonorable</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Case Type</label>
+                            <select required>
+                                <option value="">Select case type</option>
+                                <option value="misdemeanor">Misdemeanor</option>
+                                <option value="felony">Felony</option>
+                                <option value="traffic">Traffic Violation</option>
+                                <option value="domestic">Domestic Violence</option>
+                                <option value="substance">Substance Abuse</option>
+                                <option value="mental_health">Mental Health</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Court Date</label>
+                            <input type="date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Assigned Case Worker</label>
+                            <select>
+                                <option value="">Select case worker</option>
+                                <option value="jones">Sarah Jones</option>
+                                <option value="brown">Michael Brown</option>
+                                <option value="davis">Lisa Davis</option>
+                                <option value="wilson">Robert Wilson</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea rows="4" placeholder="Enter any additional information about the veteran's case or circumstances"></textarea>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <button type="submit" class="btn">Submit Intake Form</button>
+                        <button type="button" class="btn btn-secondary">Save as Draft</button>
+                        <button type="reset" class="btn" style="background: #dc3545; color: white;">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Contact Log Tab -->
+        <div id="contacts" class="tab-content">
+            <div class="form-container">
+                <h2 style="color: #07192f; margin-bottom: 2rem;">Contact Log</h2>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #07192f; margin-bottom: 1rem;">Add New Contact</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Veteran Name</label>
+                            <input type="text" placeholder="Search veteran...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contact Type</label>
+                            <select>
+                                <option value="">Select type</option>
+                                <option value="phone">Phone Call</option>
+                                <option value="email">Email</option>
+                                <option value="inperson">In-Person Meeting</option>
+                                <option value="court">Court Appearance</option>
+                                <option value="emergency">Emergency Contact</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contact Date</label>
+                            <input type="datetime-local">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Duration (minutes)</label>
+                            <input type="number" placeholder="30">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Contact Notes</label>
+                        <textarea rows="3" placeholder="Describe the contact and any important information discussed"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Follow-up Required</label>
+                        <select>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn">Add Contact Entry</button>
+                </div>
+                
+                <h3 style="color: #07192f; margin-bottom: 1rem;">Recent Contacts</h3>
+                
+                <div class="contact-log">
+                    <div class="contact-header">
+                        <div class="contact-date">March 15, 2024 - 2:30 PM</div>
+                        <div class="contact-type">Phone Call</div>
+                    </div>
+                    <p><strong>Veteran:</strong> John Smith</p>
+                    <p><strong>Duration:</strong> 25 minutes</p>
+                    <p><strong>Notes:</strong> Discussed upcoming court date and reviewed required documentation. Veteran confirmed attendance and understanding of court procedures.</p>
+                    <p><strong>Follow-up:</strong> <span class="status-badge status-pending">Required</span></p>
+                </div>
+                
+                <div class="contact-log">
+                    <div class="contact-header">
+                        <div class="contact-date">March 14, 2024 - 10:00 AM</div>
+                        <div class="contact-type">In-Person</div>
+                    </div>
+                    <p><strong>Veteran:</strong> Maria Rodriguez</p
